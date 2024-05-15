@@ -1,0 +1,29 @@
+
+---
+- name: configurar servidor na Azure
+  hosts: all
+  become: yes
+  tasks:
+    - name: atualizar pacotes apt
+      apt:
+        update_cache: yes
+
+    - name: instalar Nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: iniciar Nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: configurar pagina web 
+      copy:
+        content: |
+          <html>
+          <head><title>teste devOps</title></head>
+          <body><h1>servidor pronto</h1></body>
+          </html>
+        dest: /var/www/html/index.html
